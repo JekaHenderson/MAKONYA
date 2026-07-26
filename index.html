@@ -2,17 +2,227 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Маконя</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Интерактивное меню</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #121212;
+            font-family: Arial, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .card {
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 300px;
+            min-height: 250px;
+            position: relative;
+            touch-action: manipulation;
+        }
+
+        h2 {
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 24px;
+            pointer-events: none;
+        }
+
+        .buttons {
+            position: relative;
+            width: 100%;
+            height: 70px;
+            touch-action: manipulation;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            position: absolute;
+            touch-action: manipulation;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #yes {
+            background: #00ff66;
+            color: #000;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+            width: 80px;
+            height: 50px;
+        }
+
+        #no {
+            background: #ff3344;
+            color: #fff;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 80px;
+            height: 50px;
+        }
+
+        .message {
+            display: none;
+            color: #00ff66;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            pointer-events: none;
+        }
+
+        .message.fail {
+            color: #ff3344;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Маконя</h1>
-        <p>Маконя дура</p>
-        <p>Я сюда еще чет добавлю потом окда</p>
-        <button id="mainb" onclick="mainb()">Хз</button>
+
+    <div class="card" id="card">
+        <h2 id="question">Ты лесбиянка?</h2>
+        <div class="buttons" id="wrapper">
+            <button id="yes">Да</button>
+            <button id="no">Нет</button>
+        </div>
+        <div class="message" id="msg">Я так и знал! 🎉</div>
     </div>
-<script src="script.js"></script>
+
+    <script>
+        (function() {
+            'use strict';
+            
+            const no = document.getElementById('no');
+            const yes = document.getElementById('yes');
+            const wrap = document.getElementById('wrapper');
+            const msg = document.getElementById('msg');
+            const question = document.getElementById('question');
+
+            function moveNoButton(e) {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                const noW = 80;
+                const noH = 50;
+                const wrapW = wrap.clientWidth;
+                const wrapH = wrap.clientHeight;
+                
+                const padding = 10;
+                const maxX = wrapW - noW - padding;
+                const maxY = wrapH - noH - padding;
+                
+                if (maxX < 0 || maxY < 0) return;
+                
+                const x = Math.floor(Math.random() * maxX) + padding;
+                const y = Math.floor(Math.random() * maxY) + padding;
+                
+                no.style.transform = 'none';
+                no.style.left = x + 'px';
+                no.style.top = y + 'px';
+                
+                return false;
+            }
+
+            function resetNoButton() {
+                no.style.transform = 'translateY(-50%)';
+                no.style.left = '0px';
+                no.style.top = '50%';
+            }
+
+            // Принудительный reset при загрузке
+            resetNoButton();
+
+            // Добавляем обработчики через on - самый надежный способ для Telegram
+            no.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                moveNoButton(e);
+                return false;
+            };
+
+            no.ontouchstart = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                moveNoButton(e);
+                return false;
+            };
+
+            no.ontouchend = function(e) {
+                e.preventDefault();
+                return false;
+            };
+
+            // Для кнопки "Да"
+            yes.onclick = function(e) {
+                e.preventDefault();
+                question.innerHTML = '❤️ Я ТАК И ЗНАЛ! ❤️';
+                wrap.style.display = 'none';
+                msg.style.display = 'block';
+                msg.innerHTML = '🎉 ТЫ ЛЕСБИЯНКА! 🎉';
+                msg.className = 'message';
+                return false;
+            };
+
+            yes.ontouchstart = function(e) {
+                e.preventDefault();
+                question.innerHTML = '❤️ Я ТАК И ЗНАЛ! ❤️';
+                wrap.style.display = 'none';
+                msg.style.display = 'block';
+                msg.innerHTML = '🎉 ТЫ ЛЕСБИЯНКА! 🎉';
+                msg.className = 'message';
+                return false;
+            };
+
+            // Дублируем через addEventListener для надежности
+            no.addEventListener('click', moveNoButton);
+            no.addEventListener('touchstart', moveNoButton, { passive: false });
+            
+            yes.addEventListener('click', function(e) {
+                e.preventDefault();
+                question.innerHTML = '❤️ Я ТАК И ЗНАЛ! ❤️';
+                wrap.style.display = 'none';
+                msg.style.display = 'block';
+                msg.innerHTML = '🎉 ТЫ ЛЕСБИЯНКА! 🎉';
+                msg.className = 'message';
+            });
+            
+            yes.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                question.innerHTML = '❤️ Я ТАК И ЗНАЛ! ❤️';
+                wrap.style.display = 'none';
+                msg.style.display = 'block';
+                msg.innerHTML = '🎉 ТЫ ЛЕСБИЯНКА! 🎉';
+                msg.className = 'message';
+            }, { passive: false });
+
+            console.log('Скрипт загружен! Нажми на НЕТ!');
+        })();
+    </script>
+
 </body>
 </html>
