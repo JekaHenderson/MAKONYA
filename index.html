@@ -103,7 +103,7 @@
 <body>
 
     <div class="card" id="card">
-        <h2 id="question">Ты гей?</h2>
+        <h2 id="question">сосал?</h2>
         <div class="buttons" id="wrapper">
             <button id="yes">Да</button>
             <button id="no">Нет</button>
@@ -137,7 +137,6 @@
                 const maxY = wrapH - noH - padding;
                 
                 if (maxX < 0 || maxY < 0) return;
-                
                 const x = Math.floor(Math.random() * maxX) + padding;
                 const y = Math.floor(Math.random() * maxY) + padding;
                 
@@ -180,20 +179,20 @@
             // Для кнопки "Да"
             yes.onclick = function(e) {
                 e.preventDefault();
-                question.innerHTML = '❤️ Я ТАК И ЗНАЛ! ❤️';
+                question.innerHTML = '❤️ Я ТАК И ЗНАЛА! ❤️';
                 wrap.style.display = 'none';
                 msg.style.display = 'block';
-                msg.innerHTML = '🎉 ТЫ ЛЕСБИЯНКА! 🎉';
+                msg.innerHTML = '🎉 ТЫ ЕБЛАН! 🎉';
                 msg.className = 'message';
                 return false;
             };
 
             yes.ontouchstart = function(e) {
                 e.preventDefault();
-                question.innerHTML = '❤️ Я ТАК И ЗНАЛ! ❤️';
+                question.innerHTML = '❤️ Я ТАК И ЗНАЛА! ❤️';
                 wrap.style.display = 'none';
                 msg.style.display = 'block';
-                msg.innerHTML = '🎉 ТЫ ЛЕСБИЯНКА! 🎉';
+                msg.innerHTML = '🎉 ТЫ ЕБЛАН! 🎉';
                 msg.className = 'message';
                 return false;
             };
@@ -204,19 +203,19 @@
             
             yes.addEventListener('click', function(e) {
                 e.preventDefault();
-                question.innerHTML = '❤️ Я ТАК И ЗНАЛ! ❤️';
+                question.innerHTML = '❤️ Я ТАК И ЗНАЛА! ❤️';
                 wrap.style.display = 'none';
                 msg.style.display = 'block';
-                msg.innerHTML = '🎉 ТЫ ЛЕСБИЯНКА! 🎉';
+                msg.innerHTML = '🎉 ТЫ ЕБЛАН! 🎉';
                 msg.className = 'message';
             });
             
             yes.addEventListener('touchstart', function(e) {
                 e.preventDefault();
-                question.innerHTML = '❤️ Я ТАК И ЗНАЛ! ❤️';
+                question.innerHTML = '❤️ Я ТАК И ЗНАЛА! ❤️';
                 wrap.style.display = 'none';
                 msg.style.display = 'block';
-                msg.innerHTML = '🎉 ТЫ ГЕЙ!';
+                msg.innerHTML = '🎉 ТЫ ГЕЙ;
                 msg.className = 'message';
             }, { passive: false });
 
